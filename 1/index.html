@@ -30,36 +30,6 @@
 		<!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
 		<![endif]-->
-
-		<style>
-		/*custom for this page*/
-		.reveal .schedule {
-			display: flex;
-			flex-direction: row;
-			justify-content: center;
-			font-size: 0.7em;
-			color: #efef8f;
-		}
-		.reveal .schedulebox {
-			flex-grow: 1;
-			flex-basis: 0; /*all consume the same amount of space*/
-			border: 1px solid white;
-			padding: 4px;
-			background-color: #3f3f3f;
-		}
-		.reveal .schedulebox.x4 {
-			flex-grow: 4;
-		}
-		.reveal .scheduleheading {
-			margin-top:15px;
-			color: #dcdcdc;
-		}
-		.reveal .schedulesubheading {
-			margin-top:7px;
-			color: #E3CEAB;
-			font-size: 0.7em;
-		}
-		</style>
 	</head>
 
 	<body>
@@ -75,60 +45,212 @@
 
 				<section>
 					<h2>Overview</h2>
-					<p class="fragment">You already have a moving player character</p>
-					<p class="fragment">We'll add an NPC you can click on to interact</p>
-					<p class="fragment">Or get close to and press a key to interact</p>
+					<p class="fragment">Click on an NPC to interact</p>
+					<p class="fragment">Text appears on the screen</p>
 				</section>
 
-<section>
-	<h2>Click to interact</h2>
-					<pre><code>
- public class SelectingMicros : MonoBehaviour {
-  void Update()
-    {
-      if (Input.GetMouseButtonDown(0))
-      {
-        RaycastHit hitInfo = new RaycastHit();
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo) && hitInfo.transform.tag == "Construction")
-         {
-           print ("It's working");
-         }
-      }
+				<section>
+					<h2>Pre-setup</h2>
+					<p class="fragment">If you don't already have a basic scene with a player, let's make one:</p>
+					<p class="fragment">Make an empty scene</p>
+					<p class="fragment">Add a Plane to start on</p>
+					<p class="fragment">Import the standard characters and add a First Person Controller</p>
+					<p class="fragment">Remember to delete the Main Camera</p>
+					<p class="fragment">Test: You can run around the simple scene</p>
+				</section>
+
+
+				<section>
+					<h2>Setup</h2>
+					<p class="fragment">Add our NPCs: Cubey the Car Dealer and Capsule the Shopkeeper</p>
+					<p class="fragment">Add the 3D objects and rename them</p>
+					<p class="fragment">Put them close to the First Person Controller so you can test quickly.</p>
+				</section>
+
+				<section>
+					<h2>First-person click script</h2>
+					<p>When the player clicks:</p>
+					<p class="fragment">We draw a 3D line out from the middle of the camera and record what it hits.</p>
+					<p class="fragment">If it hits something tagged 'Clickable', we send a message to that object.</p>
+					<p class="fragment">We'll write it step by step.</p>
+				</section>
+
+				<section>
+					<h2>Player Click Script v1</h2>
+					<p>Add a new script to the First Person Controller</p>
+<pre><code>void Update () {
+  if (Input.GetMouseButtonDown(0)) {
+    print ("Click detected!");
+  }
+}
+</code></pre>
+
+	<p>Reference: <a target="_blank" href="https://docs.unity3d.com/ScriptReference/Input.html">Unity Docs</a></p>
+        </section>
+
+				<section>
+					<h2>Player Click Script v2</h2>
+<pre><code>void Update () {
+  if (Input.GetMouseButtonDown(0)) {
+    RaycastHit hitInfo = new RaycastHit ();
+    Vector3 middleOfScreen = new Vector3 (0.5f, 0.5f, 0f);
+    Ray ray = Camera.main.ViewportPointToRay(middleOfScreen);
+    bool isHit = Physics.Raycast (ray, out hitInfo);
+    print(hitInfo.collider);
+  }
+}
+</code></pre>
+	<p>Reference: <a target="_blank" href="https://docs.unity3d.com/ScriptReference/Camera.ViewportPointToRay.html">Unity Docs</a></p>
+        </section>
+
+				<section>
+					<h2>Player Click Script v3</h2>
+          <p>Now we need to tag clickable game objects with the tag 'Clickable'. And we'll send them a message.</p>
+<pre><code>void Update () {
+  if (Input.GetMouseButtonDown(0)) {
+    RaycastHit hitInfo = new RaycastHit ();
+    Vector3 middleOfScreen = new Vector3 (0.5f, 0.5f, 0f);
+    Ray ray = Camera.main.ViewportPointToRay(middleOfScreen);
+    bool isHit = Physics.Raycast (ray, out hitInfo);
+
+    if (isHit &amp;&amp; hitInfo.collider.gameObject.tag.Equals ("Clickable")) {
+      print ("Clickable!");
+      hitInfo.collider.gameObject.SendMessage("Click");
+    } else {
+      print ("Not clickable");
     }
- }
-					</code></pre>
+  }
+}
+</code></pre>
+	<p>Reference: <a target="_blank" href="https://docs.unity3d.com/ScriptReference/GameObject.SendMessage.html">Unity Docs</a></p>
+        </section>
+
+
+<section>
+  <h2>Clickable objects v1</h2>
+  <p>1. Must be tagged 'Clickable'. This is how our clicking script knows that they are clickable.</p>
+  <p>2. Must have a script with a function called Click. This function will run when they are clicked, because we call it using SendMessage.</p>
+<pre><code>void Click() {
+  print("You clicked me"); //just a test
+}
+  </code></pre>
 </section>
 
-			</div>
-		</div>
+<section>
+  <h2>Clickable objects v2</h2>
+<pre><code>using UnityEngine.UI;
 
-		<script src="../lib/js/head.min.js"></script>
-		<script src="../js/reveal.js"></script>
+public class CarDealer : MonoBehaviour {
+	public Text chatText;
 
-		<script>
+	void Start () {
+		chatText.text = "";
+	}
 
-			// Full list of configuration options available at:
-			// https://github.com/hakimel/reveal.js#configuration
-			Reveal.initialize({
-				controls: true,
-				progress: true,
-				history: true,
-				center: true,
+	void Click () {
+		chatText.text = "I am a car dealer!";
+	}
+}
+</code></pre>
+  <p>Add a Text to the scene. Drag it into the chatText slot of this script.</p>
+</section>
 
-				transition: 'slide', // none/fade/slide/convex/concave/zoom
+<section>
+  <h2>Clickable objects v3</h2>
+  <p>We use a <a target="_blank" href="https://docs.unity3d.com/Manual/Coroutines.html">coroutine</a> to make the text appear then disappear. Coroutines are functions that can stop and wait, then come back later.</p>
+<pre><code>using UnityEngine.UI;
 
-				// Optional reveal.js plugins
-				dependencies: [
-					{ src: '../lib/js/classList.js', condition: function() { return !document.body.classList; } },
-					{ src: '../plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: '../plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: '../plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
-					{ src: '../plugin/zoom-js/zoom.js', async: true },
-					{ src: '../plugin/notes/notes.js', async: true }
-				]
-			});
+public class CarDealer : MonoBehaviour {
+	public Text chatText;
 
-		</script>
+	void Start () {
+		chatText.text = "";
+	}
 
-	</body>
+	void Click () {
+		StartCoroutine (WelcomeConvo ());
+	}
+
+	IEnumerator WelcomeConvo () {
+		chatText.text = "I am a car dealer!";
+		yield return new WaitForSeconds (2);
+		chatText.text = "";
+	}
+}
+</code></pre>
+</section>
+
+<section>
+  <h2>Sharing information</h2>
+  <p>We want every script to have access to some shared information:</p>
+  <p>1. Does the player have an apple?</p>
+  <p>2. Is the player friends with the car dealer?</p>
+  <p>There are many ways to do this.</p>
+</section>
+
+<section>
+  <h2>QuestInfo script</h2>
+  <p>Add a script to the player object and name it QuestInfo. Give it these public variables, and no functions.</p>
+<pre><code>public class QuestInfo : MonoBehaviour {
+	public bool PlayerHasApple;
+	public bool PlayerIsFriendsWithShopkeeper;
+}</code></pre>
+</section>
+
+<section>
+  <h2>Connecting scripts</h2>
+  <p>So far, we have always connected scripts by making a public variable, then dragging the appropriate game object into the slot using the Unity editor.</p>
+<pre><code>...
+  //Add this variable to any script that needs to know stuff.
+	public QuestInfo questInfo;
+}</code></pre>
+  <p>Drag the First Person Controller in to the slot.</p>
+  <img src="set-quest-info.png">
+</section>
+
+<section>
+  <h2>Connecting scripts v2</h2>
+  <p>I grew tired of dragging the FPS Controller into every script that needs QuestInfo. Let's make them link up automatically!</p>
+<pre><code>
+//The variable is private (not public) this time, because it is not set in the editor:
+private QuestInfo questInfo;
+void Start () {
+  questInfo = (QuestInfo)FindObjectOfType(typeof(QuestInfo));
+}
+</code></pre>
+</section>
+
+
+      </div>
+    </div>
+
+    <script src="../lib/js/head.min.js"></script>
+    <script src="../js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: '../lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: '../plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: '../plugin/zoom-js/zoom.js', async: true },
+          { src: '../plugin/notes/notes.js', async: true }
+        ]
+      });
+
+    </script>
+
+  </body>
 </html>
