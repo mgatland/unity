@@ -1,0 +1,38 @@
+/* styles based on reveal.js default theme */
+body {
+	font-family: 'Source Sans Pro', Helvetica, sans-serif;
+	background-color: #ccc;
+	color: black;
+	font-size: 25px;
+}
+
+a {
+	color: #1676b9;
+    text-decoration: none;
+    -webkit-transition: color 0.15s ease;
+    -moz-transition: color 0.15s ease;
+    transition: color 0.15s ease;
+}
+
+a:hover {
+  color: #39a8f5;
+}
+
+content {
+	display: block;
+	margin: 40px;
+}
+
+h1 {
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: normal;
+    text-transform: uppercase;
+}
+
+small {
+	display: inline-block;
+    font-size: 0.6em;
+    line-height: 1.2em;
+    vertical-align: top;
+}

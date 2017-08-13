@@ -1,83 +1,43 @@
 <!doctype html>
 <html lang="en">
-
 	<head>
 		<meta charset="utf-8">
-
-		<title>Unity</title>
-
-		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
-		<meta name="author" content="Hakim El Hattab">
-
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css" id="theme">
-
-		<!-- Code syntax highlighting -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-		<!--[if lt IE 9]>
-		<script src="lib/js/html5shiv.js"></script>
-		<![endif]-->
+		<title>Unity at AUT - Digital Design Studio II</title>
+		<link rel="stylesheet" href="home.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
 	</head>
-
 	<body>
+    <content>
+      <h1>Making games with Unity</h1>
+      <p>Matthew Gatland – AUT – Digital Design Studio II</p>
+      <p>In-class activities:</p>
+      <ul>
+        <li><a href="week-1/index.html">Week 1: Getting Started (basics + Roll-a-Ball tutorial)</a></li>
+        <li><a href="week-2/index.html">Week 2: Quick and easy Unity tricks</a></li>
+        <li><a href="week-3/index.html">Week 3: NPC chat + Inventory stuff</a></li>
+        <li>Week 4: just troubleshooting and planning what's next</li>
+      </ul>
+      <p><a target="_blank" href="https://goo.gl/4XRaao">News and unfinished notes</a></p>
+      <h2>Learning Unity</h2>
 
-		<div class="reveal">
+      <p><a href="learn-unity/">Click here</a> for notes on how to get started with Unity's official tutorials, and what is included in each tutorial.</p>
 
-			<!-- Any section element inside of this container is displayed as a slide -->
-			<div class="slides">
-				<section>
-          <h4>Making games with Unity</h4>
-          <p>Matthew Gatland – AUT – Digital Design Studio II</p>
-          <ul>
-            <li><a href="week-1/index.html">Getting Started (basics + Roll-a-Ball tutorial)</a></li>
-            <li><a href="week-2/index.html">Quick and easy Unity tricks</a></li>
-            <li><a href="week-3/index.html">NPC chat + Inventory stuff</a></li>
-          </ul>
-          <p><small><a target="_blank" href="https://goo.gl/4XRaao">News and unfinished notes</a></small></p>
-				</section>
-      </div>
-    </div>
+      <h2>Starting your project</h2>
 
-    <script src="lib/js/head.min.js"></script>
-    <script src="js/reveal.js"></script>
+      <p>After you do two or three of the official Unity tutorials, you will be ready to start your own project. You should know enough Unity terms to be able to know what you don't know, and research it online.</p>
 
-    <script>
+      <p><a href="own-project/">Click here</a> for tips on working on your own project, troubleshooting, and working with your team.</p>
 
-      // Full list of configuration options available at:
-      // https://github.com/hakimel/reveal.js#configuration
-      Reveal.initialize({
-        controls: true,
-        progress: true,
-        history: true,
-        center: true,
+      <h2>Game of the week</h2>
 
-        transition: 'slide', // none/fade/slide/convex/concave/zoom
+      <ul>
+        <li><a target="_blank" href="https://nadianova.itch.io/plantstead">Plantstead</a> by Nadia Nova. (Note its use of 3rd party assets.)</li>
+        <li><a target="_blank" href="https://fisho.itch.io/alien">Alien Caseno</a> by Grace Bruxner</li>
+        <li><a target="_blank" href="http://zinethgame.tumblr.com/">Zineth</a> by Arcade Kids</li>
+        <!--<li><a target="_blank" href="http://www.increpare.com/2015/08/subway-adventure/">Subway Adventure</a> by Increpare (also check out: Activate the 3 Artefacts and Leave, Slave of God)</li>-->
+        <li><a target="_blank" href="https://vltmn.itch.io/the-endless-express">The Endless Express</a> by Florian, Alexandre, Martin, Felix &amp; Baptiste</li>
+      </ul>
 
-        // Optional reveal.js plugins
-        dependencies: [
-          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-          { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
-          { src: 'plugin/zoom-js/zoom.js', async: true },
-          { src: 'plugin/notes/notes.js', async: true }
-        ]
-      });
-
-    </script>
-
+    </content>
   </body>
 </html>

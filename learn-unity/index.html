@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Unity at AUT - Digital Design Studio II</title>
+		<link rel="stylesheet" href="../home.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+	</head>
+	<body>
+    <content>
+      <h1>Learning Unity</h1>
+      <p><small>Or go <a href="../">back to home</a></small></p>
+
+      <p>I recommend starting with <a target="_blank" href="https://unity3d.com/learn/tutorials">Unity's official tutorials</a>. They will show you what Unity can do.</p>
+
+      <ul>
+        <li>Before you start, watch <b>the first six</b> videos of the <a target="_blank" href="https://unity3d.com/learn/tutorials/topics/interface-essentials">Unity Interface &amp; Essentials page</a>. They are short.</li>
+        <li>Then set aside a few days to do <a target="_blank" href="https://unity3d.com/learn/tutorials">the tutorials</a>.</li>
+        <li>If you find the videos too fast to keep up (or too slow and boring), you can change the video speed by clicking on the cog icon in the lower right hand corner of the video player.</li>
+      </ul>
+
+      <p>Here are some extra notes about some of the tutorials. All times given are in hours and minutes, so 1:15 means 1 hour, 15 minutes.</p>
+
+      <h3><a target="_blank" href="https://unity3d.com/learn/tutorials/projects/roll-ball-tutorial">Roll-a-ball tutorial</a> (1:15)</h3>
+      <p>Short and simple. Everyone should do this.</p>
+
+      <p>Highlights:</p>
+      <ul>
+        <li>Moving the camera</li>
+        <li>Displaying score on the screen</li>
+        <li>Make something happen when the player touches an object</li>
+      </ul>
+
+      <h3><a target="_blank" href="https://unity3d.com/learn/tutorials/projects/space-shooter-tutorial">Space Shooter tutorial</a> (5:06)</h3>
+      <p>Split into 3 hours of basics, then 2 hours of extension work (which I recommend doing). There's also 1:36 on making a mobile (touch screen) version which I didn't watch and didn't count in the total time.</p>
+
+      <p><b>Warning:</b> the video was made using an older version of Unity. Messages will pop up telling you when you have to do something different to how it is shown. If you are still confused, click on the 'YouTube' link in the lower right corner of the video to go to YouTube, and look through the comments to see if someone has helpful advice.</p>
+
+      <p>Highlights:</p>
+      <ul>
+        <li>better lighting</li>
+        <li>shooting \ making shots appear</li>
+        <li>using a game controller to make waves of enemies appear</li>
+        <li>using arrays to easily have variations of enemies (or anything)</li>
+        <li>explosion effects</li>
+        <li>playing sounds</li>
+      </ul>
+
+      <h3><a target="_blank" href="https://unity3d.com/learn/tutorials/projects/survival-shooter-tutorial">Survival Shooter tutorial</a> (3:55)</h3>
+      <p>(Only 3:35 if you leave out the final 20 minutes that are about special audio features.)</p>
+
+      <p><b>Warning:</b> the video was made using an older version of Unity. The download includes a document listing some of the changes you will have to make, so glance through that before you start. If you still get stuck, click on the 'YouTube' link in the lower right corner of the video to go to YouTube, and look through the comments to see if someone has helpful advice.</p>
+
+      <p>I encountered a bug with the damage puff emitter. If you shot an enemy, waited, then shot again, the damage effect didn't appear the second time or ever again. https://issuetracker.unity3d.com/issues/particle-system-plays-only-once?page=2#comments - see JEFEQUESO's solution.</p>
+
+
+      <p>Highlights:</p>
+      <ul>
+        <li>Using a game controller to create waves of enemies (again)</li>
+        <li>displaying score (again)</li>
+
+        <li>Enemy movement AI with the navmesh</li>
+        <li>Animating characters with mechanim and triggers</li>
+        <li>Make a healthbar (using a UI slider, sneaky)</li>
+        <li>Make the screen flash when you are hurt</li>
+        <li>Shooting (raycasts), impact effects</li>
+        <li>Control what a shot hits and what it passes through. Layer masks and LayerMask.GetMask("mask name")</li>
+        <li>Health and damage, enemies bite when close to the player</li>
+        <li>Animated UI (making text change size, fade in and out, etc, using mechanim)</li>
+        <li>UI elements are drawn in layers in the order they appear in the heirachy view</li>
+        <li>Fade the camera to black (or any color) using a full-screen UI image - part 10</li>
+        <li>You can animate anything using mechanim! positions, shapes, sizes, colors!</li>
+      </ul>
+
+      <p>Small but interesting tips:</p>
+      <ul>
+        <li>SetActive is for a whole object, enabled is for one component. - part 7</li>
+        <li>Apply changes to a prefab (button at top of inspector)</li>
+        <li>Give a gameobject a custom icon (top left in the Inspector)</li>
+        <li>You can edit a script by clicking on its name in the 'script' field in inspector.</li>
+        <li>You can comment with /* */ as well as //</li>
+      </ul>
+
+    </content>
+  </body>
+</html>
