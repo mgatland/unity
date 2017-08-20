@@ -36,3 +36,9 @@ small {
     line-height: 1.2em;
     vertical-align: top;
 }
+
+code {
+    display: block;
+    border: 2px solid black;
+    padding-left: 10px;
+}
