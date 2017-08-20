@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Unity at AUT - Digital Design Studio II</title>
+		<link rel="stylesheet" href="../home.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+	</head>
+	<body>
+    <content>
+      <h1>Building a simple Inventory system</h1>
+      <p><small>Or go <a href="../">back to home</a></small></p>
+
+<p>This is a simple inventory system that displays what items the player is carrying.</p>
+
+<p><img src="screenshot0.png"></p>
+
+<p>This does not include being able to click on an item to activate it.</p>
+
+<p>The player will see boxes on the screen showing the items they have, and empty slots where they can carry more items.</p>
+
+<p>In Unity, in the Heirachy</p>
+
+<p>Create a Canvas</p>
+<p><img src="screenshot1.png"></p>
+<p>Right-click on Canvas and Create Empty</p>
+<p><img src="screenshot2.png"></p>
+<p>Rename this gameobject 'InventoryUI' </p>
+<p><img src="screenshot3.png"></p>
+<p>Right-click on InventoryUI and create UI->Image</p>
+<p><img src="screenshot4.png"></p>
+<p>Create 3 more images using the same process, until you have 4 images:</p>
+<p><img src="screenshot5.png"></p>
+
+<p>You need a picture to represent an empty inventory slot. Draw or find a picture, and drag it into unity's Project view.</p>
+<p><img src="screenshot6.png"></p>
+<p>Click on the picture in the Project view, and set its Texture Type to Sprite (2d)</p>
+<p><img src="screenshot7.png"></p>
+<p>Then click Apply</p>
+<p><img src="screenshot8.png"></p>
+<p>Drag your new 'empty' sprite into the 'Source Image' slot in your Images in your UI:</p>
+<p><img src="screenshot11.png"></p>
+
+<p>Switch the editor to 2d mode and select the 2d editing tool</p>
+<p><img src="screenshot12.png"></p>
+<p><img src="screenshot13.png"></p>
+<p>select InventoryUI in the Heirachy View, and resize it to where you want the inventory to be on the screen. Here, I've put it on the left side of the screen.</p>
+<p><img src="screenshot14.png"></p>
+<p>Add a component to the inventoryUI: A vertical layout group. This will make its contents spread out vertically.</p>
+
+<p><img src="screenshot15.png"></p>
+
+<p><img src="screenshot16.png"></p>
+
+<p>You can set spacing if you like space between the images:</p>
+
+<p><img src="screenshot17.png"></p>
+
+<p>Create a new empty GameObject in the Heirachy</p>
+
+<p><img src="screenshot18.png"></p>
+
+<p>name it Inventory</p>
+<p><img src="screenshot19.png"></p>
+
+<p>On this new Inventory object, Add Component, C# Script, and name the script Inventory</p>
+
+<p><img src="screenshot20.png"></p>
+<p><img src="screenshot21.png"></p>
+
+<p>Add another Component, C# Script, and name this script ItemList</p>
+
+<p><img src="screenshot22.png"></p>
+
+<p>(Now there are two scripts.)</p>
+
+<p><img src="screenshot23.png"></p>
+
+<p>ItemList will define the name and image for each of our items. Edit it, delete all the existing code and paste in this instead.</p>
+
+<pre><code>using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+
+public class ItemList : MonoBehaviour {
+
+    public List&lt;string> itemNames = new List&lt;string>();
+    public List&lt;Sprite> itemImages = new List&lt;Sprite>();
+
+    public Sprite GetImage(string itemName)
+    {
+        var itemNumber = itemNames.IndexOf(itemName);
+        if (itemNumber < 0) itemNumber = 0;
+        return itemImages[itemNumber];
+    }
+}</code></pre>
+
+<p>Now in the editor, set up your items. Set the Item Names Size to 2 and the Item Images size to 2.</p>
+
+<p><img src="screenshot24.png"></p>
+
+<p>Once you type in 2 and press enter, empty slots will be created for you to fill.</p>
+
+<p>Make the first item name "empty" and drag the empty sprite into the first image slot. This means when the inventory slot is empty, it will show that image.</p>
+
+<p><img src="screenshot25.png"></p>
+
+<p>Give your second item a name. Mine is called 'mouse'. Make a new sprite for it by drawing a picture, dragging it into the Project view, and setting its Texture Type to Sprite.</p>
+
+<p><img src="screenshot26.png"></p>
+<p><img src="screenshot27.png"></p>
+<p><img src="screenshot28.png"></p>
+
+<p>Now set up the name 'mouse' and the mouse image in slot 1:</p>
+
+<p><img src="screenshot29.png"></p>
+
+<p>That's enough on Item Types.</p>
+
+<p>Now edit the Inventory Script. Delete the existing code and put in this:</p>
+
+<pre><code>using UnityEngine;
+using UnityEngine.UI;
+using System;
+
+public class Inventory : MonoBehaviour
+{
+    public ItemList ItemList;
+    public const int NumberOfSpaces = 4;
+    public Image[] InventorySlotImage = new Image[NumberOfSpaces];
+    public string[] InventorySlotItem = new string[NumberOfSpaces];
+
+    public void Start()
+    {
+        //set every slot to be empty
+        for (int i = 0; i < InventorySlotItem.Length; i++)
+        {
+            InventorySlotItem[i] = "empty";
+            InventorySlotImage[i].sprite = ItemList.GetImage("empty");
+        }
+    }
+
+    public bool HasItem(string item)
+    {
+        return Array.IndexOf(InventorySlotItem, item) >= 0;
+    }
+
+    public bool HasSpace()
+    {
+        return HasItem("empty");
+    }
+
+    public void AddItem(string itemToAdd)
+    {
+        //find an empty item slot
+        for (int i = 0; i < InventorySlotItem.Length; i++)
+        {
+            if (InventorySlotItem[i] == "empty")
+            {
+                //add the item
+                InventorySlotItem[i] = itemToAdd;
+                InventorySlotImage[i].sprite = ItemList.GetImage(itemToAdd);
+                return;
+            }
+        }
+    }
+
+    public void RemoveItem(string itemToRemove)
+    {
+        for (int i = 0; i < InventorySlotItem.Length; i++)
+        {
+            if (InventorySlotItem[i] == itemToRemove)
+            {
+                InventorySlotItem[i] = "empty";
+                InventorySlotImage[i].sprite = ItemList.GetImage("empty");
+                return;
+            }
+        }
+    }
+}</code></pre>
+
+<p>Ok, once you've saved that you need to set it up in the Inspector.</p>
+
+<p>Tell it what images to use by dragging them into the appropriate slots:</p>
+
+<p><img src="screenshot30.png"></p>
+
+<p>Tell it what Item List to use by dragging the Item List up from below</p>
+
+<p><img src="screenshot31.png"></p>
+
+<p>Now it is all set up. You can use the inventory with these 4 commands:</p>
+
+<p>RemoveItem(name)<br>
+AddItem(name)<br>
+HasItem(name) - tells you if the player has this item<br>
+HasSpace() - tells you if the player has space to pick up another item</p>
+
+<p>You can add more types of items in ItemList.</p>
+
+<p>Add a new script to the Inventory GameObject, called TestInventory. This script is just for testing. it adds and removes an item when you press E and F. It checks if you have an item when you press G.</p>
+
+<pre><code>
+
+using UnityEngine;
+using System.Collections;
+
+public class TestInventory : MonoBehaviour {
+
+    public Inventory inventory;
+
+  // Update is called once per frame
+  void Update () {
+      if (Input.GetKeyDown(KeyCode.E))
+        {
+            inventory.AddItem("mouse");
+        }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            inventory.RemoveItem("mouse");
+        }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            print(inventory.HasItem("mouse"));
+        }
+    }
+}
+
+</code></pre>
+
+<p>You will have to drag the Inventory game object into this script before it will work.</p>
+
+<p><img src="screenshot33.png"></p>
+
+<h3>That's all</h3>
+
+<p>I hope you can see how this all fits together. In your own scripts, you can use the inventory commands (AddItem, RemoveItem, HasItem and HasSpace) to manage the inventory.</p>
+
+    </content>
+  </body>
+</html>
