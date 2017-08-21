@@ -16,42 +16,177 @@
 
 <p>(Change to the standard tutorial layout)</p>
 
-<p>Add a terrain (Create -> 3d -> Terrain), draw some mountains</p>Import the standard characters (Assets -> Import Package -> Characters)</p>Add a First Person Controller (note the instructions file telling you to delete the main camera)</p>
-
+<p>Add a terrain (Create -> 3d -> Terrain)</p>
 <img src="1.png">
 
 <p>Select the terrain</p>
-
 <img src="2.png">
 
 <p>Select the first terrain drawing tool</p>
 <img src="3.png">
 
 <p>Draw on the terrain in the Scene view to raise the ground.</p>
-
 <img src="4.png">
 
-<p>Demo running around</p>
+<p>Now we need a player character.</p>
 
-<p>Add textures to the terrain</p>
+<p>Import the standard characters (Assets -> Import Package -> Characters)</p>
 
-<p>opengameart.org - check licences</p>
+<p><img src="5.png"></p>
 
-<p>Set up a skybox</p>
+<p><img src="6.png"></p>
 
-<p>(how to Google) -> https://docs.unity3d.com/Manual/HOWTO-UseSkybox.html</p>
+<p>This might take a while...</p>
 
-<p>Skybox = Material, so add a Material to the Project and change the shader to Skybox-6-sided</p>
+<p>When it finishes, you have some new packages in your Project view. Find the First Person Controller and drag it into your Scene view.</p>
 
-<p>Use your skybox: Window -> Lighting</p>
+<p><img src="7.png"></p>
 
-<p>Add a 3d model (car?) Try adding physics (a mesh collider, then a rigidbody. Meshcolliders don't always work, try a box collider.)</p>
+<p>This character comes with some instructions. You can see them here:</p>
 
-<p>Attach a spotlight to the car (headlights)</p>
+<p><img src="8.png"></p>
 
-<p>
-<pre><code>}</code></pre>
+<p>The instructions say we need to delete the Main Camera from our scene, because the First Person Controller has its own built-in camera.</p>
+
+<p>So delete the main camera.</p>
+
+<p><img src="9.png"></p>
+
+<p>Now press the Play button to play your game. You should be able to walk with the WASD keys, jump with Spacebar and look around with the mouse. You might have to click on the Game view to make the controls work.</p>
+
+<p><img src="11.png"></p>
+
+<p>Pretty good right? We haven't written any code yet!</p>
+
+<p>Let's make the terrain look nicer. We will need to find some textures.</p>
+
+<p>Let's go to <a target="_blank" href="https://opengameart.org">opengameart.org</a> and find a nice grass texture.</p>
+
+<p><img src="12.png"></p>
+<p><img src="13.png"></p>
+<p><img src="14.png"></p>
+
+<p>When you use other people's assets, you need to check what licence you have been granted. This texture uses a CC-BY 3.0 licence.</p>
+
+<p><img src="15.png"></p>
+
+<p>If you don't know what that licence means, click on the licence icon or search online. A CC-BY licence means we can use the texture in any way we like, but we MUST give credit to the author.</p>
+
+<p>Make sure you keep a record of where you found the texture and who the author was, so you can credit it correctly in your game's credits.</p>
+
+<h3>OK</h3>
+
+<p>Drag the asset into Unity's Project view.</p>
+
+<p><img src="16.png"></p>
+
+<p>Select the texture</p>
+<p><img src="17.png"></p>
+
+<p>In the Inspector, you can change settings for the texture.</p>
+
+<p>For terrain textures, you must change the Alpha Source to None, otherwise the texture will turn shiny and reflective on your terrain!</p>
+
+<p><img src="18.png"></p>
+
+<p>Find a few more textures that you like and add them in the same way, so you have at least two textures.</p>
+
+<p><img src="19.png"></p>
+
+<p>(Some textures come in a .zip or .rar file. You will have to <b>extract</b> the file to get the images out, before you can drag the images into Unity.)</p>
+
+<p>OK, go back to the Hierarchy view and select the terrain.</p>
+
+<p><img src="20.png"></p>
+
+<p>In the Inspector for the terrain, choose the paintbrush tool</p>
+
+<p><img src="21.png"></p>
+
+<p>and then click 'Edit Textures...' and 'Add Texture...'</p>
+
+<p><img src="22.png"></p>
+
+<p><img src="23.png"></p>
+
+<p>Drag one of your textures into the Albedo box (on the left) and click 'Add'</p>
+
+<p><img src="24.png"></p>
+
+<p>Click 'Add'</p>
+
+<p><img src="25.png"></p>
+
+<p>Your terrain will be filled with the first texture you add.</p>
+
+<p>Add your other textures using the same process.</p>
+
+<p>Now you can select one of the textures and paint it onto your terrain using the paint tool.</p>
+
+
+<p><img src="21.png"></p>
+<p><img src="26.png"></p>
+<p><img src="27.png"></p>
+
+<p>(If your ground looks shiny and reflective, you missed a step - go back and look for the part about alpha.)</p>
+
+<h2>Set up a skybox</h2>
+
+<p>The Skybox is a huge box around the whole world. It makes us feel like we are in a real place, but we are really inside a giant cube.</p>
+
+<p>(The skybox moves with the camera, so you can never get closer to it or further away from it.)</p>
+
+<p>To make a skybox you need 6 textures for the 6 sides of the box. go back to opengameart.org and search for a nice set of skybox textures.</p>
+
+<p>Import a set of 6 textures for your skybox.</p>
+
+<p><img src="28.png"></p>
+
+<p><img src="29.png"></p>
+
+<p>How do we use a new skybox? I couldn't work it out on my own, so I searched
+   on Google for 'unity skybox' and I found these instructions:
+   <a target="_blank" href="https://docs.unity3d.com/Manual/HOWTO-UseSkybox.html">https://docs.unity3d.com/Manual/HOWTO-UseSkybox.html</a></p>
+
+<p>Follow the linked instructions to set up a custom skybox.</p>
+
+<p>(Short summary of the instructions: A skybox is a material, so add a new Material in the Project View. Select it and change its shader to Skybox - 6 sided. Drag your 6 textures into the 6 slots in the skybox. Click Window -> Lighting at the top of the Unity window and change the skybox to your new skybox.)</p>
+
+<h2>Add a 3d model</h2>
+
+<p>Find a 3D model on opengameart.org - maybe a car. Download it (remember to check the licence!) and drag it into Unity just like you did with the textures.</p>
+
+<p><img src="30.png"></p>
+
+<p>(If the model came in a .rar or .zip file, you must extract it before you can drag it into Unity.)</p>
+
+<p>Figure out which part contains the actual 3d model.</p>
+
+<p><img src="31.png"></p>
+
+<p>Drag it into the scene.</p>
+
+<p><img src="32.png"></p>
+
+<p>This model came out really small, so I selected it in the Hierarchy and changed the scale.</p>
+
+<p><img src="33.png"></p>
+
+<p>If you press play, the car will be there but it won't do anything and you can't interact with it.</p>
+
+<p>TODO: add more screenshots from here.</p>
+<!-- New Unity Project 16 has the work so far -->
+
+<p>Add a collider component to the car. Add a rigidbody and try playing around with the physics.</p>
+
+<p>A mesh collider is more accurate, but won't work with rigidbody physics if the mesh is too complicated. You might want to use 2 or 3 simpler colliders that approximate the shape.</p>
+
+<p>If you use a mesh collider, it must be on the same game object that contains the mesh or it won't know what mesh to use. With the car I used, the mesh is on a child object so add the mesh collider to that child object.</p>
+
+<p>Add a spotlight and attach it to the car. Try pushing the car around and see how the spotlight moves with it.</p>
+
 <h3>That's all</h3>
+
     </content>
   </body>
 </html>
