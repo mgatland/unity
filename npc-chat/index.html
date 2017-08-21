@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Unity at AUT - Digital Design Studio II</title>
+		<link rel="stylesheet" href="../home.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+	</head>
+	<body>
+    <content>
+      <h1>NPC Chat Tutorial</h1>
+      <p><small>Or go <a href="../">back to home</a></small></p>
+
+<h2>What's in this tutorial?</h2>
+
+<ul>
+  <li>Click on something to interact with it</li>
+  <li>Make text appear on the screen for a few seconds</li>
+  <li>keep track of how much money the player has, and other information</li>
+  <li>In a different tutorial we will make a proper inventory system. You can combine that tutorial with these NPCs to make them give or take items from your inventory.</li>
+</ul>
+
+<p>This tutorial exists in slide-form as well, so if you are presenting to a class, click <a href="../week-3/">here</a></p>
+
+<h2>Pre-setup</h2>
+<p>If you don't already have a basic scene with a player, let's make one:</p>
+<p>Make an empty scene</p>
+<p>Add a Plane to start on</p>
+<p>Import the standard characters and add a First Person Controller</p>
+<p>Remember to delete the Main Camera</p>
+<p>Test: You can run around the simple scene</p>
+
+
+
+
+<h2>Setup</h2>
+<p>Add our NPCs: Cubey the Car Dealer and Capsule the Shopkeeper</p>
+<p>Add the 3D objects and rename them</p>
+<p>Put them close to the First Person Controller so you can test quickly.</p>
+
+
+
+<h2>First-person click script</h2>
+<p>When the player clicks:</p>
+<p>We draw a 3D line out from the middle of the camera and record what it hits.</p>
+<p>If it hits something tagged 'Clickable', we send a message to that object.</p>
+<p>We'll write it step by step.</p>
+
+
+
+<h2>Player Click Script v1</h2>
+<p>Add a new script to the First Person Controller</p>
+<pre><code>void Update () {
+  if (Input.GetMouseButtonDown(0)) {
+    print ("Click detected!");
+  }
+}
+</code></pre>
+
+<p>Reference: <a target="_blank" href="https://docs.unity3d.com/ScriptReference/Input.html">Unity Docs</a></p>
+
+
+
+<h2>Player Click Script v2</h2>
+<pre><code>void Update () {
+  if (Input.GetMouseButtonDown(0)) {
+    RaycastHit hitInfo = new RaycastHit ();
+    Vector3 middleOfScreen = new Vector3 (0.5f, 0.5f, 0f);
+    Ray ray = Camera.main.ViewportPointToRay(middleOfScreen);
+    bool isHit = Physics.Raycast (ray, out hitInfo);
+    print(hitInfo.collider);
+  }
+}
+</code></pre>
+<p>Reference: <a target="_blank" href="https://docs.unity3d.com/ScriptReference/Camera.ViewportPointToRay.html">Unity Docs</a></p>
+
+
+
+<h2>Player Click Script v3</h2>
+<p>Now we need to tag clickable game objects with the tag 'Clickable'. And we'll send them a message.</p>
+<pre><code>void Update () {
+  if (Input.GetMouseButtonDown(0)) {
+    RaycastHit hitInfo = new RaycastHit ();
+    Vector3 middleOfScreen = new Vector3 (0.5f, 0.5f, 0f);
+    Ray ray = Camera.main.ViewportPointToRay(middleOfScreen);
+    bool isHit = Physics.Raycast (ray, out hitInfo);
+
+    if (isHit &amp;&amp; hitInfo.collider.gameObject.tag.Equals ("Clickable")) {
+      print ("Clickable!");
+      hitInfo.collider.gameObject.SendMessage("Click");
+    } else {
+      print ("Not clickable");
+    }
+  }
+}
+</code></pre>
+<p>Reference: <a target="_blank" href="https://docs.unity3d.com/ScriptReference/GameObject.SendMessage.html">Unity Docs</a></p>
+
+
+
+
+<h2>Clickable objects v1</h2>
+<p>1. Must be tagged 'Clickable'. This is how our clicking script knows that they are clickable.</p>
+<p>2. Must have a script with a function called Click. This function will run when they are clicked, because we call it using SendMessage.</p>
+<pre><code>void Click() {
+  print("You clicked me"); //just a test
+}
+</code></pre>
+
+
+
+<h2>Clickable objects v2</h2>
+<pre><code>using UnityEngine.UI;
+
+  public class CarDealer : MonoBehaviour {
+  public Text chatText;
+
+  void Start () {
+    chatText.text = "";
+  }
+
+  void Click () {
+    chatText.text = "I am a car dealer!";
+  }
+}
+</code></pre>
+<p>Add a Text to the scene. Drag it into the chatText slot of this script.</p>
+
+
+
+<h2>Clickable objects v3</h2>
+<p>We use a <a target="_blank" href="https://docs.unity3d.com/Manual/Coroutines.html">coroutine</a> to make the text appear then disappear. Coroutines are functions that can stop and wait, then come back later.</p>
+<pre><code>using UnityEngine.UI;
+
+  public class CarDealer : MonoBehaviour {
+  public Text chatText;
+
+  void Start () {
+    chatText.text = "";
+  }
+
+  void Click () {
+    StartCoroutine (WelcomeConvo ());
+  }
+
+  IEnumerator WelcomeConvo () {
+    chatText.text = "I am a car dealer!";
+    yield return new WaitForSeconds (2);
+    chatText.text = "";
+  }
+}
+</code></pre>
+
+<h2>Sharing information</h2>
+<p>We want every script to have access to some shared information:</p>
+<p>1. How much money the player has</p>
+<p>2. Does the player character like apples or bananas the most?</p>
+
+<h2>QuestInfo script</h2>
+<p>Create an empty game object in the scene. Name it 'QuestObject'. Add a script named QuestInfo. Give the script these public variables (and no functions)</p>
+<pre><code>public class QuestInfo : MonoBehaviour {
+  public int Money;
+  public bool PlayerLikesApples;
+}</code></pre>
+
+<h2>QuestInfo script</h2>
+<p>You can change the values in the Unity editor, to help test things quicky:</p>
+<img src="quest-info-testing.png">
+
+<h2>Connecting scripts</h2>
+<p>Let the Car Dealer know about QuestInfo. Add this to the Car Dealer code:</p>
+<pre><code>...
+  public QuestInfo questInfo;
+}</code></pre>
+<p>Drag the QuestObject in to the slot, so it knows where to find the information:</p>
+<img src="set-quest-info.png">
+
+<h2>Using those variables</h2>
+<p>We can now use those variables in our car dealer class:</p>
+<pre><code>
+IEnumerator WelcomeConvo () {
+  if (questInfo.Money > 10) {
+    chatText.text = "Want to buy a car?";
+    yield return new WaitForSeconds (2);
+    chatText.text = "";
+  } else {
+    chatText.text = "Come back when you have $10.";
+    yield return new WaitForSeconds (2);
+    chatText.text = "";
+  }
+}
+</code></pre>
+
+<h2>Connecting scripts v2</h2>
+<p>I get tired of dragging QuestInfo object into every script that needs QuestInfo. Let's make them link up automatically!</p>
+<pre><code>
+  //Replace the word 'public' with 'private'
+  private QuestInfo questInfo;
+
+  void Start () {
+    //automatically link up at the start of the game:
+    questInfo = FindObjectOfType(typeof(QuestInfo));
+  }
+</code></pre>
+    </content>
+  </body>
+</html>
