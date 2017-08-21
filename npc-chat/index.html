@@ -1,12 +1,12 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>Unity at AUT - Digital Design Studio II</title>
-		<link rel="stylesheet" href="../home.css">
+  <head>
+    <meta charset="utf-8">
+    <title>Unity at AUT - Digital Design Studio II</title>
+    <link rel="stylesheet" href="../home.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
-	</head>
-	<body>
+  </head>
+  <body>
     <content>
       <h1>NPC Chat Tutorial</h1>
       <p><small>Or go <a href="../">back to home</a></small></p>
@@ -65,9 +65,8 @@
 <pre><code>void Update () {
   if (Input.GetMouseButtonDown(0)) {
     RaycastHit hitInfo = new RaycastHit ();
-    Vector3 middleOfScreen = new Vector3 (0.5f, 0.5f, 0f);
-    Ray ray = Camera.main.ViewportPointToRay(middleOfScreen);
-    bool isHit = Physics.Raycast (ray, out hitInfo);
+    Transform camTransform = Camera.main.transform;
+    bool isHit = Physics.Raycast (camTransform.position, camTransform.forward, out hitInfo);
     print(hitInfo.collider);
   }
 }
@@ -81,9 +80,8 @@
 <pre><code>void Update () {
   if (Input.GetMouseButtonDown(0)) {
     RaycastHit hitInfo = new RaycastHit ();
-    Vector3 middleOfScreen = new Vector3 (0.5f, 0.5f, 0f);
-    Ray ray = Camera.main.ViewportPointToRay(middleOfScreen);
-    bool isHit = Physics.Raycast (ray, out hitInfo);
+    Transform camTransform = Camera.main.transform;
+    bool isHit = Physics.Raycast (camTransform.position, camTransform.forward, out hitInfo);
 
     if (isHit &amp;&amp; hitInfo.collider.gameObject.tag.Equals ("Clickable")) {
       print ("Clickable!");
