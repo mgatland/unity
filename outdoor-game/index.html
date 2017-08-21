@@ -177,13 +177,65 @@
 <p>TODO: add more screenshots from here.</p>
 <!-- New Unity Project 16 has the work so far -->
 
-<p>Add a collider component to the car. Add a rigidbody and try playing around with the physics.</p>
+<p>Add a mesh collider component to the car. You must add it to the same gameobject that has the mesh - in my example, it's a child object underneath the main car object.</p>
 
-<p>A mesh collider is more accurate, but won't work with rigidbody physics if the mesh is too complicated. You might want to use 2 or 3 simpler colliders that approximate the shape.</p>
+<p><img src="34.png"></p>
 
-<p>If you use a mesh collider, it must be on the same game object that contains the mesh or it won't know what mesh to use. With the car I used, the mesh is on a child object so add the mesh collider to that child object.</p>
+<p>Click Add Component, Physics, Mesh Collider.</p>
 
-<p>Add a spotlight and attach it to the car. Try pushing the car around and see how the spotlight moves with it.</p>
+<p><img src="35.png"></p>
+
+<p>Move the car close to where your player character starts, and play the game again. You should be able to stand on the car because it has a collision mesh.</p>
+
+<p>Now add a rigidbody component (Add Component, Physics, Rigidbody).</p>
+
+<p><img src="36.png"></p>
+
+<p>Press play again and see what happens.</p>
+
+<p><img src="37.png"></p>
+
+<p>Oh no! My car is falling through the ground, out of the world!</p>
+
+<p>Mesh colliders are very <b>accurate</b>. The collision mesh is exactly the same as the visual mesh that you see. But they are also very complicated. Unity does not support physics with a mesh as complicated as this.</p>
+
+<p>Right-click on the Mesh Collider in the Inspector view and choose 'Remove Component'.</p>
+
+<p><img src="38.png"></p>
+
+<p>Instead, add a box collider component</p>
+
+<p><img src="39.png"></p>
+
+<p>If the collider is not the right shape, you can click 'Edit Collider' then resize it by dragging the green dots in the scene view.</p>
+
+<p><img src="40.png"></p>
+
+<p><img src="41.png"></p>
+
+<p>Try playing the game now. You should be able to push the car around by running into it.</p>
+
+<p><img src="42.png"></p>
+
+<p>Add a Spotlight game object to the hierarchy.</p>
+
+<p><img src="43.png"></p>
+
+<p>Move it in the Scene view so it shines out of the car like headlights.</p>
+
+<p><img src="43.1.png"></p>
+
+<p>In the hierarchy, drag the spotlight onto the car to make it a child object.</p>
+
+<p><img src="44.png"></p>
+
+<p><img src="45.png"></p>
+
+<p>You might like to turn down the intensity of the scene's main light so the car headlights are more noticable.</p>
+
+<p><img src="43.2.png"></p>
+
+<p>Play the game. The light will now now move when the car moves. Try pushing the car around and see how the light moves.
 
 <h3>That's all</h3>
 
