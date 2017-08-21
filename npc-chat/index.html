@@ -201,5 +201,68 @@ IEnumerator WelcomeConvo () {
   }
 </code></pre>
     </content>
+
+    <h2>Dialogue options</h2>
+
+    <p>When the player clicks on an NPC, we want to let them make a choice.</p>
+
+    <p>We will show them two buttons and let them click on one. Becuase the First Person Controller takes control of our mouse, we need to disable it before we can turn the mouse cursor back on.</p>
+
+    <p>Add two buttons in the Scene View (Create->UI->Button). Name them YesButton and NoButton and change the text inside them to 'Yes' and 'No'</p>
+
+    <p>Make a new gameobject, a Cylinder, tag it as Clickable, and add a new script named Friend. Put this code in the script:</p>
+  <pre><code>using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityStandardAssets.Characters.FirstPerson;
+
+public class Friend : MonoBehaviour {
+
+	public Text chatText;
+	public Button yesButton;
+	public Button noButton;
+	public FirstPersonController fps;
+
+	public void Start () {
+		chatText.text = "";
+		yesButton.gameObject.SetActive (false);
+		noButton.gameObject.SetActive (false);
+	}
+
+	public void Click() {
+		chatText.text = "Can we go to the beach?";
+		yesButton.gameObject.SetActive (true);
+		noButton.gameObject.SetActive (true);
+		fps.enabled = false; //stop the FPS controller from controlling the mouse
+		//turn mouse cursor back on
+		Cursor.lockState = CursorLockMode.None;
+		Cursor.visible = true;
+		yesButton.onClick.AddListener (ChoseYes);
+		noButton.onClick.AddListener (ChoseNo);
+	}
+
+	public void ChoseYes () {
+		//let FPS controller control the mouse again
+		fps.enabled = true;
+		chatText.text = "YAY!";
+		yesButton.gameObject.SetActive (false);
+		noButton.gameObject.SetActive (false);
+	}
+
+	public void ChoseNo () {
+		//let FPS controller control the mouse again
+		fps.enabled = true;
+		chatText.text = "AWWW";
+		yesButton.gameObject.SetActive (false);
+		noButton.gameObject.SetActive (false);
+	}
+}
+  </code></pre>
+
+<p>For the script to work, you need to drag the appropriate objects into it in the Inspector: the Chat Text, the two buttons, and the FPS Controller.</p>
+
+<p><img src="friend-inspector.png"></p>
+
   </body>
 </html>
