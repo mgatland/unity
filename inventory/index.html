@@ -11,13 +11,19 @@
       <h1>Building a simple Inventory system</h1>
       <p><small>Or go <a href="../">back to home</a></small></p>
 
-<p>This is a simple inventory system that displays what items the player is carrying.</p>
+<h2>What's included?</h2>
+
+<p>A simple inventory UI system that displays what items the player is carrying.</p>
 
 <p><img src="screenshot0.png"></p>
 
-<p>This does not include being able to click on an item to activate it.</p>
+<p>In this version, you can't click on the items. It is only to show what you have.</p>
 
-<p>The player will see boxes on the screen showing the items they have, and empty slots where they can carry more items.</p>
+<p>Other scripts will add or remove items.</p>
+
+<p>(If you have already done my simple NPC tutorial, you can add this to the same scene then make those NPCs interact with the inventory.)</p>
+
+<h2>Create the UI</h2>
 
 <p>In Unity, in the Heirachy</p>
 
@@ -46,7 +52,9 @@
 <p><img src="screenshot13.png"></p>
 <p>select InventoryUI in the Heirachy View, and resize it to where you want the inventory to be on the screen. Here, I've put it on the left side of the screen.</p>
 <p><img src="screenshot14.png"></p>
-<p>Add a component to the inventoryUI: A vertical layout group. This will make its contents spread out vertically.</p>
+<p>Add a component to the inventoryUI: A grid layout group. This will make its contents spread out in a grid.</p>
+
+<p>(I used a vertical layout in the screenshot, but I recommend using <b>grid layout</b> instead.</p>
 
 <p><img src="screenshot15.png"></p>
 
@@ -56,12 +64,16 @@
 
 <p><img src="screenshot17.png"></p>
 
+<h2>Add the Inventory and Item Types code</h2>
+
 <p>Create a new empty GameObject in the Heirachy</p>
 
 <p><img src="screenshot18.png"></p>
 
 <p>name it Inventory</p>
 <p><img src="screenshot19.png"></p>
+
+<p>This object is invisible, and holds our inventory system. The system is separate from the UI.</p>
 
 <p>On this new Inventory object, Add Component, C# Script, and name the script Inventory</p>
 
@@ -76,7 +88,11 @@
 
 <p><img src="screenshot23.png"></p>
 
-<p>ItemList will define the name and image for each of our items. Edit it, delete all the existing code and paste in this instead.</p>
+<p>ItemList will define the different kinds of items you can get in this game.</p>
+
+<p>Each item has a <b>name</b> and an <b>image</b>.</p>
+
+<p>Edit the ItemList script, delete all the existing code and paste in this instead.</p>
 
 <pre><code>using UnityEngine;
 using System.Collections;
@@ -111,11 +127,13 @@ public class ItemList : MonoBehaviour {
 <p><img src="screenshot27.png"></p>
 <p><img src="screenshot28.png"></p>
 
-<p>Now set up the name 'mouse' and the mouse image in slot 1:</p>
+<p>Now go to the ItemList. Set the next item name to 'mouse' and set the next item image to the mouse image.</p>
 
 <p><img src="screenshot29.png"></p>
 
 <p>That's enough on Item Types.</p>
+
+<h2>The main Inventory Script</h2>
 
 <p>Now edit the Inventory Script. Delete the existing code and put in this:</p>
 
@@ -181,7 +199,7 @@ public class Inventory : MonoBehaviour
 
 <p>Ok, once you've saved that you need to set it up in the Inspector.</p>
 
-<p>Tell it what images to use by dragging them into the appropriate slots:</p>
+<p>Tell it what images to use for its UI by dragging them into the appropriate slots:</p>
 
 <p><img src="screenshot30.png"></p>
 
@@ -189,12 +207,12 @@ public class Inventory : MonoBehaviour
 
 <p><img src="screenshot31.png"></p>
 
-<p>Now it is all set up. You can use the inventory with these 4 commands:</p>
+<p>Now it is all set up. Any script can use the inventory with these 4 commands:</p>
 
 <p>RemoveItem(name)<br>
 AddItem(name)<br>
 HasItem(name) - tells you if the player has this item<br>
-HasSpace() - tells you if the player has space to pick up another item</p>
+HasSpace() - tells you if the player has an empty space to pick up another item</p>
 
 <p>You can add more types of items in ItemList.</p>
 
@@ -234,7 +252,21 @@ public class TestInventory : MonoBehaviour {
 
 <h3>That's all</h3>
 
-<p>I hope you can see how this all fits together. In your own scripts, you can use the inventory commands (AddItem, RemoveItem, HasItem and HasSpace) to manage the inventory.</p>
+<p>In your own scripts, you can use the inventory commands (AddItem, RemoveItem, HasItem and HasSpace) to manage the inventory.</p>
+
+<p>You can combine this with the NPC tutorial to make NPCs give items, take items and check if you have items. Here's an example of what you might do:</p>
+
+<pre><code>  //...at the start of the class
+  public Inventory inventory;
+</code></pre>
+
+<pre><code> //...inside our NPC chat code
+  if (inventory.HasItem("mouse")) {
+    chatText.text = "I like your pet mouse!";
+  } else {
+    chatText.text = "You need to find a pet.";
+  }
+</code></pre>
 
     </content>
   </body>
