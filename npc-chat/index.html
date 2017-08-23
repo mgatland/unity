@@ -11,6 +11,7 @@
       <h1>NPC Chat Tutorial</h1>
       <p><small>Or go <a href="../">back to home</a></small></p>
 
+<!--- search for 'fixme' to see where you're up to -->
 <h2>What's in this tutorial?</h2>
 
 <ul>
@@ -23,33 +24,64 @@
 <p>This tutorial exists in slide-form as well, so if you are presenting to a class, click <a href="../week-3/">here</a></p>
 
 <h2>Pre-setup</h2>
-<p>If you don't already have a basic scene with a player, let's make one:</p>
-<p>Make an empty scene</p>
-<p>Add a Plane to start on</p>
-<p>Import the standard characters and add a First Person Controller</p>
-<p>Remember to delete the Main Camera</p>
-<p>Test: You can run around the simple scene</p>
+<p>If you already have a first person game, you can use that and skip the first step. <a href="#set-up-npcs">Skip ahead</a> to the next section.</p>
+<p>If you <b>don't</b> already have a first person game, let's make one.</p>
+<p>Start a new Unity project</p>
+<img src="1.png">
+<p>Add a Plane, using the Hierarchy view</p>
+<img src="2.png">
+<p>Select the plane and reset its transform, to make sure it's in the center of the world. Click on the cog icon in the top right, then choose 'Reset'</p>
+<img src="3.png">
+<p>Import the standard characters by clicking Assets, Import Package, Characters.</p>
+<img src="4.png">
+<p>Click 'Import' on the pop-up to import everything</p>
+<img src="5.png">
+<p>Find the First Person Controller in your Project view</p>
+<img src="6.png">
+<p>Drag them into your Scene view.</p>
+<img src="7.png">
+<p>Delete the Main Camera, because the First Person Controller comes with its own camera.</p>
+<img src="8.png">
+<p>Press play and check that it's working. You should be able to look around with the mouse, move with WASD and jump with spacebar.</p>
+<img src="9.png">
+<p>Press the stop button when you are done. You might need to press ESC to release the mouse because the First Person Controller takes control of it.</p>
+<p>Now we are ready to begin.</p>
 
+<h2 id="set-up-npcs">Set up the Game Objects</h2>
 
+<p>We will have 2 NPCs: Cubey the Car Dealer and Sphero the Shopkeeper</p>
 
+<p>Add a Cube to your scene.</p>
+<p><img src="10.png"></p>
+<p>Add a Sphere to your scene.</p>
+<p><img src="11.png"></p>
+<p>Rename them so we can tell what they are. (Click on their name in the Hierarchy view, right click and choose 'rename'.)</p>
 
-<h2>Setup</h2>
-<p>Add our NPCs: Cubey the Car Dealer and Capsule the Shopkeeper</p>
-<p>Add the 3D objects and rename them</p>
-<p>Put them close to the First Person Controller so you can test quickly.</p>
+<p><img src="12.png"></p>
+<p><img src="13.png"></p>
+<p><img src="14.png"></p>
 
+<p>Move the objects in the scene so they start in front of the player. This will let us test them quickly.</p>
 
+<p><img src="15.png"></p>
+<p><img src="16.png"></p>
 
 <h2>First-person click script</h2>
+
 <p>When the player clicks:</p>
-<p>We draw a 3D line out from the middle of the camera and record what it hits.</p>
-<p>If it hits something tagged 'Clickable', we send a message to that object.</p>
-<p>We'll write it step by step.</p>
-
-
-
+<p>We draw a 3D line out from the middle of the camera and check what it hits.</p>
+<p>We want to know if it hits an NPC.</p>
+<p>We'll write the script step by step.</p>
+<p>Select the player in the Hierarchy</p>
+<p><img src="17.png"></p>
+<p>At the bottom of the Inspector, choose Add Component</p>
+<p><img src="18.png"></p>
+<p>Choose 'New Script' and name it 'ClickToTalk'</p>
+<p><img src="19.png"></p>
+<p>Edit the script by double-clicking its name here</p>
+<p><img src="20.png"></p>
 <h2>Player Click Script v1</h2>
-<p>Add a new script to the First Person Controller</p>
+<p>We are rewriting the Update function. Leave the rest of the script alone, but change the Update function to look like this:</p>
 <pre><code>void Update () {
   if (Input.GetMouseButtonDown(0)) {
     print ("Click detected!");
@@ -59,24 +91,33 @@
 
 <p>Reference: <a target="_blank" href="https://docs.unity3d.com/ScriptReference/Input.html">Unity Docs</a></p>
 
+<p>This will display a message when the player clicks. Save your changes, run the game and check that it works.</p>
 
+<p><img src="21.png"></p>
 
 <h2>Player Click Script v2</h2>
+
+<p>Now we are adding a little more to the Update Method. When the player clicks, we will trace a line out and see what it hits.</p>
+
 <pre><code>void Update () {
   if (Input.GetMouseButtonDown(0)) {
-    RaycastHit hitInfo = new RaycastHit ();
+    <b>RaycastHit hitInfo = new RaycastHit ();
     Transform camTransform = Camera.main.transform;
     bool isHit = Physics.Raycast (camTransform.position, camTransform.forward, out hitInfo);
-    print(hitInfo.collider);
+    print(hitInfo.collider);</b>
   }
 }
 </code></pre>
 <p>Reference: <a target="_blank" href="https://docs.unity3d.com/ScriptReference/Camera.ViewportPointToRay.html">Unity Docs</a></p>
 
+<p>Check that it works. You should be able to click on the NPCs or the ground and their name will appear in the log.</p>
 
 
+<!--- fixme: improvements up to here -->
 <h2>Player Click Script v3</h2>
-<p>Now we need to tag clickable game objects with the tag 'Clickable'. And we'll send them a message.</p>
+<p>We'll make it so you can only click on certain objects.</p>
+<p>And when you click on them, we'll send them a message so they can run their own code.</p>
+
 <pre><code>void Update () {
   if (Input.GetMouseButtonDown(0)) {
     RaycastHit hitInfo = new RaycastHit ();
