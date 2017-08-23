@@ -110,10 +110,10 @@
 </code></pre>
 <p>Reference: <a target="_blank" href="https://docs.unity3d.com/ScriptReference/Camera.ViewportPointToRay.html">Unity Docs</a></p>
 
+<p>The 'isHit' variable will be true if we hit something, or false if we didn't.</p>
+<p>The 'hitInfo' variable contains information about what we hit.</p>
 <p>Check that it works. You should be able to click on the NPCs or the ground and their name will appear in the log.</p>
 
-
-<!--- fixme: improvements up to here -->
 <h2>Player Click Script v3</h2>
 <p>We'll make it so you can only click on certain objects.</p>
 <p>And when you click on them, we'll send them a message so they can run their own code.</p>
@@ -124,34 +124,62 @@
     Transform camTransform = Camera.main.transform;
     bool isHit = Physics.Raycast (camTransform.position, camTransform.forward, out hitInfo);
 
-    if (isHit &amp;&amp; hitInfo.collider.gameObject.tag.Equals ("Clickable")) {
+    <b>if (isHit &amp;&amp; hitInfo.collider.tag.Equals ("Clickable")) {
       print ("Clickable!");
-      hitInfo.collider.gameObject.SendMessage("Click");
+      hitInfo.collider.SendMessage("Click");
     } else {
       print ("Not clickable");
-    }
+    }</b>
   }
 }
 </code></pre>
 <p>Reference: <a target="_blank" href="https://docs.unity3d.com/ScriptReference/GameObject.SendMessage.html">Unity Docs</a></p>
 
+<p>This script only lets us click on objects that are tagged 'Clickable'. We need to tag our NPCs.</p>
+<p>Select the NPC.</p>
+<p><img src="22.png"></p>
+<p>There is no tag named 'Clickable', so we must add a new tag.</p>
+<p><img src="23.png"></p>
+<p><img src="24.png"></p>
+<p><img src="25.png"></p>
+<p>New tag created.</p>
+<p>Now select the NPC again.</p>
+<p><img src="26.png"></p>
+<p>This time, we can select the tag Clickable.</p>
+<p><img src="27.png"></p>
+<p>Done!</p>
+<p><img src="28.png"></p>
+<p>Tag the other NPC with the same tag.</p>
+<p><img src="29.png"></p>
 
-
+<p>Now test your game. Try clicking on the ground. It should say 'not clickable'.</p>
+<p><img src="30.png"></p>
+<p>Try clicking on an NPC. You should get a red error message. That's because our click script asked the NPC to run the 'Click' function, but it has no such function.</p>
+<p><img src="31.png"></p>
 
 <h2>Clickable objects v1</h2>
-<p>1. Must be tagged 'Clickable'. This is how our clicking script knows that they are clickable.</p>
-<p>2. Must have a script with a function called Click. This function will run when they are clicked, because we call it using SendMessage.</p>
+
+<p>Our clickable objects must have a script with a function called Click. This function will run when they are clicked - we told it to, using the SendMessage command.</p>
+
+<p>Select your Cube NPC. Add a new Script called 'CubeyChat'</p>
+
+<p>Add this function to the script.</p>
 <pre><code>void Click() {
   print("You clicked me"); //just a test
 }
 </code></pre>
 
-
+<p>Test your game again. Cubey should display 'You clicked me' in the log. Sphero will still have an error message.</p>
 
 <h2>Clickable objects v2</h2>
-<pre><code>using UnityEngine.UI;
 
-  public class CarDealer : MonoBehaviour {
+<p>Open your CubeyChat script. Delete all the contents and replace with this:</p>
+<pre><code>using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+  public class CubeyChat : MonoBehaviour {
   public Text chatText;
 
   void Start () {
@@ -163,15 +191,34 @@
   }
 }
 </code></pre>
-<p>Add a Text to the scene. Drag it into the chatText slot of this script.</p>
+<p>This script needs a reference to a UI Text. Create a UI text:</p>
+<p><img src="32.png"></p>
+<p>Rename it to ChatText so we can remember what it's for. It will display NPC chat messages.</p>
+<p><img src="33.png"></p>
 
+<p>use the 2D editing tool and 2D mode to arrange the text on the screen.</p>
+<p><img src="33.1.png"></p>
+<p>Adjust the font size and color.</p>
+<p><img src="33.2.png"></p>
+<p>Now select your Cubey NPC, and drag the ChatText into the chat script.</p>
+<p><img src="34.png"></p>
 
+<p>The NPC's script will:</p>
+<p>1. Clear the text at the start of the game, so you can't see it</p>
+<p>2. Put a message into the text when you click on the NPC</p>
+
+<p>Test that it works!</p>
+<p><img src="35.png"></p>
 
 <h2>Clickable objects v3</h2>
-<p>We use a <a target="_blank" href="https://docs.unity3d.com/Manual/Coroutines.html">coroutine</a> to make the text appear then disappear. Coroutines are functions that can stop and wait, then come back later.</p>
-<pre><code>using UnityEngine.UI;
+<p>We use a <a target="_blank" href="https://docs.unity3d.com/Manual/Coroutines.html">coroutine</a> to make the message appear for two seconds, then disappear. Coroutines are functions that can stop and wait, then come back later.</p>
+<p>Replace the whole script with this:</p>
+<pre><code>using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
 
-  public class CarDealer : MonoBehaviour {
+public class CubeyChat : MonoBehaviour {
   public Text chatText;
 
   void Start () {
@@ -189,6 +236,10 @@
   }
 }
 </code></pre>
+
+<p>Try it out.</p>
+
+<p>Can you change the script to make a few different messages appear in a sequence?</p>
 
 <h2>Sharing information</h2>
 <p>We want every script to have access to some shared information:</p>
@@ -219,7 +270,7 @@
 <pre><code>
 IEnumerator WelcomeConvo () {
   if (questInfo.Money > 10) {
-    chatText.text = "Want to buy a car?";
+    chatText.text = "Want to buy a car for $10?";
     yield return new WaitForSeconds (2);
     chatText.text = "";
   } else {
@@ -304,6 +355,8 @@ public class Friend : MonoBehaviour {
 <p>For the script to work, you need to drag the appropriate objects into it in the Inspector: the Chat Text, the two buttons, and the FPS Controller.</p>
 
 <p><img src="friend-inspector.png"></p>
+
+<p>Try it out!</p>
 
   </body>
 </html>
