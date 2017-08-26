@@ -77,6 +77,50 @@
         <li>You can comment with /* */ as well as //</li>
       </ul>
 
+      <h3><a target="_blank" href="https://unity3d.com/learn/tutorials/projects/tanks-tutorial">Tanks tutorial</a> (3:55)</h3>
+
+      <h4>tanks phase 1</h4>
+      <ul>
+        <li>use simple colliders on everything, not mesh colliders</li>
+        <li>dust trails: a particle emitter can emit particles over distance</li>
+        <li>(set simulation space to world and emission on distance)</li>
+        <li>Game Objects have void OnEnable() as well as Awake() and Start(). OnEnable happens every time it's enabled, great for resetting.</li>
+        <li>On a rigidbody, kinematic means 'forces do not affect it'</li>
+        <li>autocomplete is helpful</li>
+      </ul>
+
+      <h4>tanks phase 2</h4>
+      <ul>
+        <li>Rotations and moving things</li>
+        <li>Finding errors, especially unassigned reference errors</li>
+        <li>changing audio pitch to avoid phasing, audio changing with speed</li>
+        <li>using prefabs, updating, seeing what has changed from the prefab</li>
+      </ul>
+
+      <h4>tanks phase 3 - camera</h4>
+      <ul>
+        <li>camera rig to help position the camera</li>
+        <li>orthographic cameras, how they work in detail</li>
+        <li>Vector3.SmoothDamp</li>
+        <li>Move camera to show everyone in a group of objects!!</li>
+      </ul>
+
+      <h4>tanks phase 4</h4>
+      <ul>
+        <li>putting UI in the game world instead of screen (a few settings to change)</li>
+        <li>(make a canvas a child object of a game object to make it move around with it)</li>
+        <li>Make a circular\radial health bar</li>
+        <li>Performance tip: Reuse a particle effect instead of creating a new one each time</li>
+        <li>(handy tip: hold alt and expand something in the Heirachy to expand the whole tree)</li>
+        <li>(handy tip: hold shift and select multiple things in the heirachy. You can edit multiple objects at once)</li>
+      </ul>
+      <h4>tanks phase 5 - Shell Creation</h4>
+      <ul>
+        <li>(handy tip: You can call destroy with a delay, for example "destroy this shell in 5 seconds")</li>
+        <li>Deal damage and apply movement force in an explosion area using OverlapSphere</li>
+        <li>.... i haven't done the rest of this tutorial yet...</li>
+      </ul>
+
     </content>
   </body>
 </html>
